@@ -2,24 +2,25 @@ package src.forms;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
+import src.gui.BaseFrame;
+import src.gui.BaseHeadPanel;
 
 public class LibraryApp {
 
     public static JPanel mainPanel;
     public static CardLayout cardLayout;
 
+    private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
     
     JButton homeButton;
     public LibraryApp()
     {
-        System.out.println("Library app");
-        JFrame frame = new JFrame("Library Management System");
+        JFrame frame = new BaseFrame(1600, 900, "Library Management System", null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout());
-        frame.setSize(1600,900);
-        frame.setResizable(false);
-        
+
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
@@ -41,7 +42,13 @@ public class LibraryApp {
    
     private JPanel createHomePanel()
     {
+        JPanel mainHomePanel = new JPanel(new BorderLayout());
+
+        Color bgColor = new Color(15354950);
+        Color fgColor = Color.white;
         
+        JPanel headPanel = new BaseHeadPanel("Library Management System", bgColor, fgColor, headingFont, 30, 50);
+
         JPanel homePanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -72,7 +79,14 @@ public class LibraryApp {
         {
             addComponent(homePanel, buttons[i], gbc, 0, i);
         }
-        return homePanel;
+        homePanel.setBackground(new Color(123, 50, 250));
+
+        homePanel.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+
+        mainHomePanel.add(headPanel, BorderLayout.NORTH);
+        mainHomePanel.add(homePanel, BorderLayout.CENTER);
+
+        return mainHomePanel;
     }
 
     public static JPanel createRibbonPanel (String[] buttons, Font font)
@@ -90,7 +104,8 @@ public class LibraryApp {
             });
             ribbonPanel.add(button);
         }
-
+        ribbonPanel.setBorder(BorderFactory.createLineBorder(Color.white, 1));
+        ribbonPanel.setBackground(new Color(123, 50, 250));
         return ribbonPanel;
     }
     public static JLabel createLabel(String text, Font newFont)
