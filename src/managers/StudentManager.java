@@ -1,0 +1,74 @@
+package src.managers;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import src.models.Student;
+
+public class StudentManager {
+   
+    private static final String addQuery = "INSERT INTO Student (ERP_ID, Name, Course) VALUES (?, ?, ?)";
+    private static final String showQuery = "SELECT * FROM Student ORDER BY ERP_ID ASC";
+
+    private static Connection conn;
+    private static PreparedStatement st;
+    private static ResultSet rs;
+
+    public static String addStudent(Student student)
+    {
+        if(student.getErpId().isEmpty() || student.getName().isEmpty() || student.getCourse().isEmpty())
+        {
+            return "Fields can not be empty!";
+        }
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(addQuery);
+        st.setString(1, student.getErpId());
+        st.setString(2, student.getName());
+        st.setString(3, student.getCourse());
+
+        st.executeUpdate();
+
+        return "SUCCESS";
+        }
+        catch(SQLException e)
+        {
+            return e.getMessage();
+        } 
+        finally
+        {
+            DatabaseManager.close(conn, st, null);
+        }
+    }
+    
+    public static List<String[]> getAllStudents()
+    {
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(showQuery);
+        rs = st.executeQuery();
+
+        List<String[]> students = new ArrayList<>();
+        
+        while (rs.next()) {
+            students.add(new String[] { rs.getString(1),
+                                        rs.getString(2), 
+                                        rs.getString(3)});
+        }
+        
+        return students;
+    
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        finally
+        {
+            DatabaseManager.close(conn, st, rs);
+        }
+
+    }
+}
