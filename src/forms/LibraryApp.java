@@ -27,14 +27,12 @@ public class LibraryApp {
         JPanel homePanel = createHomePanel();
         JPanel studentPanel = new StudentPanel();
         JPanel bookPanel = new BookPanel();
-        JPanel borrowPanel = new BorrowPanel();
-        JPanel returnPanel = new ReturnPanel();
+        JPanel transactionPanel = new TransactionPanel();
 
         mainPanel.add(homePanel, "Home");
         mainPanel.add(studentPanel, "Student");
         mainPanel.add(bookPanel, "Book");
-        mainPanel.add(borrowPanel, "Borrow");
-        mainPanel.add(returnPanel, "Return");
+        mainPanel.add(transactionPanel, "Transaction");
 
         frame.add(mainPanel);
         frame.setVisible(true);
@@ -58,11 +56,10 @@ public class LibraryApp {
 
         JButton studentButton = null;
         JButton bookButton = null;
-        JButton borrowButton = null;
-        JButton returnButton = null;
+        JButton transactionButton = null;
 
-        String[] buttonNames = {"Student", "Book", "Borrow", "Return"};
-        JButton[] buttons = {studentButton, bookButton, borrowButton, returnButton};
+        String[] buttonNames = {"Student", "Book", "Transaction"};
+        JButton[] buttons = {studentButton, bookButton, transactionButton};
 
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
@@ -75,7 +72,7 @@ public class LibraryApp {
         }
         
 
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < buttons.length; i++)
         {
             addComponent(homePanel, buttons[i], gbc, 0, i);
         }

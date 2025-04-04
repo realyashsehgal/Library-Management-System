@@ -12,7 +12,7 @@ public class BookPanel extends JPanel{
 
         JPanel bookPanel = new JPanel(new GridBagLayout());
        
-        String[] buttons = {"Home", "Student", "Borrow", "Return"};
+        String[] buttons = {"Home", "Student", "Transaction"};
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
         GridBagConstraints gbc = new GridBagConstraints();

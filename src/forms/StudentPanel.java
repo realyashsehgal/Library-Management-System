@@ -22,7 +22,7 @@ public class StudentPanel extends JPanel{
     {
             this.setLayout(new BorderLayout());
 
-            String[] buttons = {"Home", "Book", "Borrow", "Return"};
+            String[] buttons = {"Home", "Book", "Transaction"};
             JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
             Color bgColor = new Color(15354950);
@@ -35,7 +35,6 @@ public class StudentPanel extends JPanel{
 
             BaseImagePanel buttonsPanel = new BaseImagePanel("src/images/studentBackground2.jpg");
             buttonsPanel.setLayout(new GridBagLayout());
-            buttonsPanel.setBackground(Color.lightGray);
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(20, 20, 20, 20);
