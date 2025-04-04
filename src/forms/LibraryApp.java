@@ -2,7 +2,6 @@ package src.forms;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import src.gui.BaseFrame;
 import src.gui.BaseHeadPanel;
@@ -69,13 +68,9 @@ public class LibraryApp {
             buttons[i].addActionListener(e->{
                 cardLayout.show(mainPanel, buttonNames[index]);
             });
-        }
-        
-
-        for(int i = 0; i < buttons.length; i++)
-        {
             addComponent(homePanel, buttons[i], gbc, 0, i);
         }
+
         homePanel.setBackground(new Color(123, 50, 250));
 
         homePanel.setBorder(BorderFactory.createLineBorder(Color.black, 3));
