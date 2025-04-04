@@ -68,16 +68,6 @@ public class TransactionPanel extends JPanel{
 
             studentPanel.add(headPanel, BorderLayout.NORTH);
             studentPanel.add(buttonsPanel, BorderLayout.CENTER);
-
-
-            // JButton trollButton = new JButton("TROLLOLOOL");
-            // trollButton.setFont(homeFont);
-            // trollButton.addActionListener(e -> {
-            //         trollFrame();
-            //         System.out.println("TROLL");
-            // });
-            // LibraryApp.addComponent(studentPanel, trollButton, gbc, 0, 2);
-            
     
             this.add(ribbonPanel, BorderLayout.NORTH);
             this.add(studentPanel, BorderLayout.CENTER);

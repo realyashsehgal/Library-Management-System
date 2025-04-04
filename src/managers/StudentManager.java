@@ -9,6 +9,7 @@ public class StudentManager {
    
     private static final String addQuery = "INSERT INTO Student (ERP_ID, Name, Course) VALUES (?, ?, ?)";
     private static final String showQuery = "SELECT * FROM Student ORDER BY ERP_ID ASC";
+    private static final String removeQuery = "DELETE FROM STUDENT WHERE ERP_ID = ?";
 
     private static Connection conn;
     private static PreparedStatement st;
@@ -30,6 +31,35 @@ public class StudentManager {
 
         st.executeUpdate();
 
+        return "SUCCESS";
+        }
+        catch(SQLException e)
+        {
+            return e.getMessage();
+        } 
+        finally
+        {
+            DatabaseManager.close(conn, st, null);
+        }
+    }
+
+    public static String removeStudent(String erp)
+    {
+        if(erp.isEmpty())
+        {
+            return "Fields can not be empty!";
+        }
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(removeQuery);
+        st.setString(1, erp);
+        int result = st.executeUpdate();
+        
+        if(result == 0 )
+        {
+            return "Student with this ERP_ID does not exist!";
+        }
         return "SUCCESS";
         }
         catch(SQLException e)
@@ -69,6 +99,27 @@ public class StudentManager {
         {
             DatabaseManager.close(conn, st, rs);
         }
-
     }
 }
+
+    // private int doesExist(String erp)
+    // {
+    //     try
+    //     {
+    //     conn = DatabaseManager.GetConnection();
+    //     st = conn.prepareStatement("SELECT * FROM Student WHERE ERP_ID = ?");
+    //     st.setString(1, erp);
+    //     rs = st.executeQuery();
+
+
+    //     }   
+    //     catch(SQLException e)
+    //     {
+
+    //     }
+    //     finally
+    //     {
+    //         DatabaseManager.close(conn, st, rs);
+    //     }
+    // }
+
