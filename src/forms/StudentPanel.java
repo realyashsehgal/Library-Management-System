@@ -1,11 +1,11 @@
 package src.forms;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import src.gui.BaseFrame;
 import src.gui.BaseHeadPanel;
 import src.gui.BaseImagePanel;
+import src.gui.BaseTable;
 import src.managers.StudentManager;
 import src.models.Student;
 
@@ -15,7 +15,6 @@ import java.util.List;
 public class StudentPanel extends JPanel {
 
     private Font font = new Font("Montserrat", Font.BOLD, 20);
-    private Font tableFont = new Font("Montserrat", Font.PLAIN, 15);
     private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
 
@@ -121,7 +120,7 @@ public class StudentPanel extends JPanel {
 
         JButton addButton = new JButton("Add Student");
         addButton.addActionListener(e -> {
-            String erp = erpField.getText();
+            String erp = erpField.getText().toUpperCase();
             String name = nameField.getText();
             String course = courseField.getText();
             int result = JOptionPane.showConfirmDialog(null,
@@ -144,40 +143,6 @@ public class StudentPanel extends JPanel {
 
         mainFrame.add(headPanel, BorderLayout.NORTH);
         mainFrame.add(addPanel, BorderLayout.CENTER);
-
-        mainFrame.setVisible(true);
-
-        return mainFrame;
-    }
-
-    private JFrame showFrame() {
-
-        JFrame mainFrame = new BaseFrame(800, 600, "Student Data", null);
-
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
-
-        JPanel headPanel = new BaseHeadPanel("Student Details", bgColor, fgColor, homeFont, 10, 20);
-
-        String[] columnNames = { "ERP ID", "Name", "Course" };
-
-        List<String[]> students = StudentManager.getAllStudents();
-        String[][] data = students.toArray(new String[0][]);
-
-        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        JTable table = new JTable(model);
-        table.setFont(tableFont);
-        table.setRowHeight(20);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        mainFrame.add(scrollPane, BorderLayout.CENTER);
-        mainFrame.add(headPanel, BorderLayout.NORTH);
 
         mainFrame.setVisible(true);
 
@@ -208,7 +173,7 @@ public class StudentPanel extends JPanel {
         JButton removeButton = new JButton("Remove Student");
 
         removeButton.addActionListener(e -> {
-            String erp = erpField.getText();
+            String erp = erpField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
                     "Are you sure you want to remove student with ERP: " + erp + "?", "Remove Confirm",
                     JOptionPane.YES_NO_OPTION);
@@ -233,6 +198,31 @@ public class StudentPanel extends JPanel {
 
         return mainFrame;
     }
+
+    private JFrame showFrame() {
+
+        JFrame mainFrame = new BaseFrame(800, 600, "Student Data", null);
+
+        Color bgColor = new Color(15354950);
+        Color fgColor = Color.white;
+
+        JPanel headPanel = new BaseHeadPanel("Student Details", bgColor, fgColor, homeFont, 10, 20);
+
+        String[] columnNames = { "ERP ID", "Name", "Course" };
+
+        List<String[]> students = StudentManager.getAllStudents();
+        String[][] data = students.toArray(new String[0][]);
+
+        JScrollPane dataTable = new BaseTable(data, columnNames);
+
+        mainFrame.add(dataTable, BorderLayout.CENTER);
+        mainFrame.add(headPanel, BorderLayout.NORTH);
+
+        mainFrame.setVisible(true);
+
+        return mainFrame;
+    }
+
 
     // private JFrame trollFrame()
     // {

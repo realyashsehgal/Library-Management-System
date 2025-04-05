@@ -1,7 +1,5 @@
 // package src.tests;
 // import java.sql.*;
-
-// import src.managers.StudentManager;
 // import src.models.Student;
 
 // public class Test {
@@ -15,19 +13,8 @@
 //             String password = "Rohit1Rajat@";
 //             Connection conn = DriverManager.getConnection(url, user, password);
 //             Statement stmt = conn.createStatement();
-//             for(Integer i = 0; i < 20; i++)
-//             {   
-//                 if(i < 10)
-//                 {
-//                     student = new Student("0231BCA00"+i, i.toString()+"A", "BBA");
-//                 }
-//                 else
-//                 {
-//                     student = new Student("0231BCA0"+i, i.toString()+"A", "BBA");
-                    
-//                 }
-//                 StudentManager.addStudent(student);
-//             }
+
+//             stmt.executeUpdate("CREATE TABLE Book(Book_ID VARCHAR(10) PRIMARY KEY, Title VARCHAR(20) NOT NULL, Author VARCHAR(20) NOT NULL)");
 
 //         }
 //         catch(Exception e)
@@ -36,3 +23,4 @@
 //         }
 //     }
 // }
+

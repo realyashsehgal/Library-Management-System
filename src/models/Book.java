@@ -2,22 +2,22 @@ package src.models;
 
 public class Book {
     private String id;
-    private String name;
+    private String title;
     private String author;
 
     private Boolean isAvailable;
 
-    public Book(String id, String name, String author)
+    public Book(String id, String title, String author)
     {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.author = author;
 
         isAvailable = true;
     }
 
     public String getId() { return id; }
-    public String getName() { return name; }
+    public String getTitle() { return title; }
     public String getAuthor() { return author; }
     public Boolean getAvailability() { return isAvailable; }
 
@@ -26,6 +26,6 @@ public class Book {
     @Override
     public String toString()
     {
-        return "ID: " + id + ", Name: " + name + ", Author: " + author + "\n";
+        return "ID: " + id + ", Title: " + title + ", Author: " + author + "\n";
     }
 }
