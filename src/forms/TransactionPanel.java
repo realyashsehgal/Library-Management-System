@@ -6,7 +6,6 @@ import src.gui.BaseFrame;
 import src.gui.BaseHeadPanel;
 import src.gui.BaseImagePanel;
 import src.gui.BaseTable;
-import src.managers.StudentManager;
 import src.managers.TransactionManager;
 import src.models.Transaction;
 

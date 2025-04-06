@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import src.models.Book;
 import src.models.Student;
 
 public class StudentManager {
