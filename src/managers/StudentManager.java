@@ -3,12 +3,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import src.models.Book;
 import src.models.Student;
 
 public class StudentManager {
    
     private static final String addQuery = "INSERT INTO Student (ERP_ID, Name, Course) VALUES (?, ?, ?)";
     private static final String showQuery = "SELECT * FROM Student ORDER BY ERP_ID ASC";
+    private static final String getQuery = "SELECT * FROM Student WHERE ERP_ID = ?";
     private static final String removeQuery = "DELETE FROM STUDENT WHERE ERP_ID = ?";
 
     private static Connection conn;
@@ -72,6 +74,39 @@ public class StudentManager {
         }
     }
     
+    public static Student getStudent(String erpId) 
+    {   
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(getQuery);
+        st.setString(1, erpId);
+        rs = st.executeQuery();
+        
+        if(rs.next()) {
+            Student student = new Student(rs.getString("ERP_ID"), 
+                                rs.getString("Name"),
+                                rs.getString("Course"));
+                return student;
+        }
+        else
+        {
+            System.out.println("NO STUDENT");
+            return null;
+        }
+    
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        finally
+        {
+            DatabaseManager.close(conn, st, rs);
+        }
+
+    }
+
     public static List<String[]> getAllStudents()
     {
         try

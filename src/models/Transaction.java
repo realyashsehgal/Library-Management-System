@@ -1,35 +1,47 @@
 package src.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Transaction {
     
-    private int transactionId;
+    private Integer transactionId;
     private String studentErp;
     private String bookId;
-    private Date borrowDate;
-    private Date returnDate;
 
+    private LocalDate transactionDate;
+    private LocalDate dueDate;
 
-    public Transaction(int transactionId, String studentErp, String bookId, Date borrowDate, Date returnDate )
-    {
+    private String type;
+
+    public Transaction(Integer transactionId, String studentErp, String bookId, String type, LocalDate transactionDate, LocalDate dueDate) {
         this.transactionId = transactionId;
         this.studentErp = studentErp;
         this.bookId = bookId;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
+        this.type = type;
+        this.transactionDate = transactionDate;
+        this.dueDate = dueDate;
+
+    }
+
+    public Transaction(String studentErp, String bookId, String type) {
+        this.studentErp = studentErp;
+        this.bookId = bookId;
+        this.type = type;
+
     }
 
     public int getId() { return transactionId; }
     public String getStudentErp() { return studentErp; }
     public String getBookId() { return bookId; }
-    public Date getBorrowDate() { return borrowDate; } 
-    public Date getReturnDate() { return returnDate; }
+    public String getType() { return type; }
+    public LocalDate getTransactionDate() { return transactionDate; }
+    public LocalDate getDueDate() { return dueDate; }
 
     @Override
     public String toString()
     {
-        return "Transaction ID: " + transactionId + ", Student ERP: " + studentErp + ", Book ID: " + bookId + ", Borrow Date: " + borrowDate + ", Return Date: " + returnDate + "\n";
+        return "Transaction ID: " + transactionId + ", Student ERP: " + studentErp + ", Book ID: " + bookId + ", Type: " + type + "\n";
     }
 
 }

@@ -67,14 +67,6 @@ public class StudentPanel extends JPanel {
         studentPanel.add(headPanel, BorderLayout.NORTH);
         studentPanel.add(buttonsPanel, BorderLayout.CENTER);
 
-        // JButton trollButton = new JButton("TROLLOLOOL");
-        // trollButton.setFont(homeFont);
-        // trollButton.addActionListener(e -> {
-        // trollFrame();
-        // System.out.println("TROLL");
-        // });
-        // LibraryApp.addComponent(studentPanel, trollButton, gbc, 0, 2);
-
         this.add(ribbonPanel, BorderLayout.NORTH);
         this.add(studentPanel, BorderLayout.CENTER);
 
@@ -222,24 +214,5 @@ public class StudentPanel extends JPanel {
 
         return mainFrame;
     }
-
-
-    // private JFrame trollFrame()
-    // {
-
-    // JFrame mainFrame = new JFrame();
-    // mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    // mainFrame.setSize(800, 600);
-    // mainFrame.setLayout(new BorderLayout());
-    // mainFrame.setResizable(false);
-    // JPanel panel = new JPanel();
-    // panel.setBackground(Color.red);
-
-    // mainFrame.add(panel, BorderLayout.CENTER);
-
-    // mainFrame.setVisible(true);
-
-    // return mainFrame;
-    // }
 
 }

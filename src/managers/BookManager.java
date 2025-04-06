@@ -10,6 +10,10 @@ public class BookManager {
     private static final String addQuery = "INSERT INTO Book (Book_ID, Title, Author) VALUES (?, ?, ?)";
     private static final String showQuery = "SELECT * FROM Book ORDER BY Book_ID ASC";
     private static final String removeQuery = "DELETE FROM Book WHERE Book_ID = ?";
+    private static final String getQuery = "SELECT * FROM Book WHERE Book_ID = ?";
+    private static final String setAvailability = "UPDATE Book SET Availability = ? WHERE Book_Id = ?";
+
+
 
     private static Connection conn;
     private static PreparedStatement st;
@@ -71,7 +75,66 @@ public class BookManager {
             DatabaseManager.close(conn, st, null);
         }
     }
+
+    public static String setAvailability(String bookID, String availability)
+    {
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(setAvailability);
+        st.setString(1, availability);
+        st.setString(2, bookID);
+       
+        st.executeUpdate();
+        
+        return "SUCCESS";
     
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        finally
+        {
+            DatabaseManager.close(conn, st, rs);
+        }
+    }
+    
+    public static Book getBook(String bookId) 
+    {   
+        try
+        {
+        conn = DatabaseManager.GetConnection();
+        st = conn.prepareStatement(getQuery);
+        st.setString(1, bookId);
+        rs = st.executeQuery();
+        
+        if(rs.next()) {
+            Book book = new Book(rs.getString("Book_ID"), 
+                                rs.getString("Title"),
+                                rs.getString("Author"));
+                book.setAvailability(rs.getString("Availability"));
+                System.out.println(book.toString());
+                return book;
+        }
+        else
+        {
+            System.out.println("NO BOOK");
+            return null;
+        }
+    
+        }catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        finally
+        {
+            DatabaseManager.close(conn, st, rs);
+        }
+
+    }
+
     public static List<String[]> getAllBooks()
     {
         try
@@ -83,9 +146,10 @@ public class BookManager {
         List<String[]> books = new ArrayList<>();
         
         while (rs.next()) {
-            books.add(new String[] { rs.getString(1),
-                                        rs.getString(2), 
-                                        rs.getString(3)});
+            books.add(new String[] { rs.getString("Book_ID"),
+                                        rs.getString("Title"), 
+                                        rs.getString("Author"),
+                                        rs.getString("Availability")});
         }
         
         return books;
@@ -100,5 +164,9 @@ public class BookManager {
             DatabaseManager.close(conn, st, rs);
         }
     }
+
+    
+
+    
 }
 

@@ -1,5 +1,8 @@
 // package src.tests;
 // import java.sql.*;
+
+// import com.mysql.cj.protocol.Resultset;
+
 // import src.models.Student;
 
 // public class Test {
@@ -13,9 +16,10 @@
 //             String password = "Rohit1Rajat@";
 //             Connection conn = DriverManager.getConnection(url, user, password);
 //             Statement stmt = conn.createStatement();
-
-//             stmt.executeUpdate("CREATE TABLE Book(Book_ID VARCHAR(10) PRIMARY KEY, Title VARCHAR(20) NOT NULL, Author VARCHAR(20) NOT NULL)");
-
+//             for(int i = 0; i < 10; i++)
+//             {
+//                 stmt.executeUpdate("INSERT INTO Book (Book_ID, Title, Author) VALUES ('B"+i+"','ABCDE', 'BCDEF')");
+//             }
 //         }
 //         catch(Exception e)
 //         {

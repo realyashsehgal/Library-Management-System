@@ -7,7 +7,8 @@ import src.gui.BaseHeadPanel;
 import src.gui.BaseImagePanel;
 import src.gui.BaseTable;
 import src.managers.StudentManager;
-import src.models.Student;
+import src.managers.TransactionManager;
+import src.models.Transaction;
 
 import java.awt.*;
 import java.util.List;
@@ -21,16 +22,16 @@ public class TransactionPanel extends JPanel {
     public TransactionPanel() {
         this.setLayout(new BorderLayout());
 
-        String[] buttons = { "Home", "Book", "Transaction" };
+        String[] buttons = { "Home", "Student", "Book" };
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
         Color bgColor = new Color(15354950);
         Color fgColor = Color.white;
 
-        JPanel headPanel = new BaseHeadPanel("Student Data", bgColor, fgColor, headingFont, 20, 30);
+        JPanel headPanel = new BaseHeadPanel("Transaction Data", bgColor, fgColor, headingFont, 20, 30);
         headPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 
-        JPanel studentPanel = new JPanel(new BorderLayout());
+        JPanel transactionPanel = new JPanel(new BorderLayout());
 
         BaseImagePanel buttonsPanel = new BaseImagePanel("src/images/studentBackground2.jpg");
         buttonsPanel.setLayout(new GridBagLayout());
@@ -40,52 +41,44 @@ public class TransactionPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JButton addButton = new JButton("Add Student");
-        addButton.setFont(homeFont);
-        addButton.addActionListener(e -> {
-            addFrame();
-            System.out.println("ADD");
+        JButton borrowButton = new JButton("Borrow Book");
+        borrowButton.setFont(homeFont);
+        borrowButton.addActionListener(e -> {
+            borrowFrame();
+            System.out.println("Borrow");
         });
-        LibraryApp.addComponent(buttonsPanel, addButton, gbc, 0, 0);
+        LibraryApp.addComponent(buttonsPanel, borrowButton, gbc, 0, 0);
 
-        JButton removeButton = new JButton("Remove Student");
-        removeButton.setFont(homeFont);
-        removeButton.addActionListener(e -> {
-            removeFrame();
-            System.out.println("Remove");
+        JButton returnButton = new JButton("Return Book");
+        returnButton.setFont(homeFont);
+        returnButton.addActionListener(e -> {
+            returnFrame();
+            System.out.println("Return");
         });
-        LibraryApp.addComponent(buttonsPanel, removeButton, gbc, 0, 1);
+        LibraryApp.addComponent(buttonsPanel, returnButton, gbc, 0, 1);
 
-        JButton showButton = new JButton("Show Students");
-        showButton.setFont(homeFont);
-        showButton.addActionListener(e -> {
+        JButton showTransactions = new JButton("Show Transactions");
+        showTransactions.setFont(homeFont);
+        showTransactions.addActionListener(e -> {
             showFrame();
-            System.out.println("SHOW");
+            System.out.println("Show");
         });
-        LibraryApp.addComponent(buttonsPanel, showButton, gbc, 0, 2);
+        LibraryApp.addComponent(buttonsPanel, showTransactions, gbc, 0, 2);
 
-        studentPanel.add(headPanel, BorderLayout.NORTH);
-        studentPanel.add(buttonsPanel, BorderLayout.CENTER);
-
-        // JButton trollButton = new JButton("TROLLOLOOL");
-        // trollButton.setFont(homeFont);
-        // trollButton.addActionListener(e -> {
-        // trollFrame();
-        // System.out.println("TROLL");
-        // });
-        // LibraryApp.addComponent(studentPanel, trollButton, gbc, 0, 2);
+        transactionPanel.add(headPanel, BorderLayout.NORTH);
+        transactionPanel.add(buttonsPanel, BorderLayout.CENTER);
 
         this.add(ribbonPanel, BorderLayout.NORTH);
-        this.add(studentPanel, BorderLayout.CENTER);
+        this.add(transactionPanel, BorderLayout.CENTER);
 
     }
 
-    private JFrame addFrame() {
-        JFrame mainFrame = new BaseFrame(800, 600, "Add Student", null);
+    private JFrame borrowFrame() {
+        JFrame mainFrame = new BaseFrame(800, 600, "Borrow Book", null);
 
         Color bgColor = new Color(15354950);
         Color fgColor = Color.white;
-        JPanel headPanel = new BaseHeadPanel("Add Student", bgColor, fgColor, homeFont, 10, 20);
+        JPanel headPanel = new BaseHeadPanel("Borrow Book", bgColor, fgColor, homeFont, 10, 20);
 
         JPanel addPanel = new JPanel();
         addPanel.setLayout(new GridBagLayout());
@@ -96,10 +89,9 @@ public class TransactionPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel studentErp = LibraryApp.createLabel("Student ERP", font);
-        JLabel studentName = LibraryApp.createLabel("Student Name", font);
-        JLabel studentCourse = LibraryApp.createLabel("Student Course", font);
+        JLabel bookID = LibraryApp.createLabel("Book ID", font);
 
-        JLabel[] labels = { studentErp, studentName, studentCourse };
+        JLabel[] labels = { studentErp, bookID};
 
         for (int i = 0; i < labels.length; i++) {
 
@@ -108,38 +100,101 @@ public class TransactionPanel extends JPanel {
         }
 
         JTextField erpField = LibraryApp.createTextField(font);
-        JTextField nameField = LibraryApp.createTextField(font);
-        JTextField courseField = LibraryApp.createTextField(font);
+        JTextField idField = LibraryApp.createTextField(font);
 
-        JTextField[] tfs = { erpField, nameField, courseField };
+        JTextField[] tfs = { erpField, idField};
 
         for (int i = 0; i < tfs.length; i++) {
 
             LibraryApp.addComponent(addPanel, tfs[i], gbc, 1, i);
         }
 
-        JButton addButton = new JButton("Add Student");
-        addButton.addActionListener(e -> {
+        JButton borrowButton = new JButton("Borrow Book");
+        borrowButton.addActionListener(e -> {
             String erp = erpField.getText().toUpperCase();
-            String name = nameField.getText();
-            String course = courseField.getText();
+            String id = idField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to add student with ERP: " + erp + "?", "Add Confirm",
+                    "Are you sure you want to Add Borrow transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                Student student = new Student(erp, name, course);
-                String addStudent = StudentManager.addStudent(student);
-                if (addStudent.equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(null, "Student Successfully Added!", addStudent,
+                Transaction transaction = new Transaction(erp, id, "Borrow");
+                String borrowTransaction = TransactionManager.addBorrow(transaction);
+                if (borrowTransaction.equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(null, "Borrow transaciton Successfully Added!", borrowTransaction,
                             JOptionPane.INFORMATION_MESSAGE);
 
                     mainFrame.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, addStudent, "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, borrowTransaction, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        LibraryApp.addComponent(addPanel, addButton, gbc, 0, 3);
+        LibraryApp.addComponent(addPanel, borrowButton, gbc, 0, 3);
+
+        mainFrame.add(headPanel, BorderLayout.NORTH);
+        mainFrame.add(addPanel, BorderLayout.CENTER);
+
+        mainFrame.setVisible(true);
+
+        return mainFrame;
+    }
+    private JFrame returnFrame() {
+        JFrame mainFrame = new BaseFrame(800, 600, "Return Book", null);
+
+        Color bgColor = new Color(15354950);
+        Color fgColor = Color.white;
+        JPanel headPanel = new BaseHeadPanel("Return Book", bgColor, fgColor, homeFont, 10, 20);
+
+        JPanel addPanel = new JPanel();
+        addPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel studentErp = LibraryApp.createLabel("Student ERP", font);
+        JLabel bookID = LibraryApp.createLabel("Book ID", font);
+
+        JLabel[] labels = { studentErp, bookID};
+
+        for (int i = 0; i < labels.length; i++) {
+
+            LibraryApp.addComponent(addPanel, labels[i], gbc, 0, i);
+
+        }
+
+        JTextField erpField = LibraryApp.createTextField(font);
+        JTextField idField = LibraryApp.createTextField(font);
+
+        JTextField[] tfs = { erpField, idField};
+
+        for (int i = 0; i < tfs.length; i++) {
+
+            LibraryApp.addComponent(addPanel, tfs[i], gbc, 1, i);
+        }
+
+        JButton borrowButton = new JButton("Return Book");
+        borrowButton.addActionListener(e -> {
+            String erp = erpField.getText().toUpperCase();
+            String id = idField.getText().toUpperCase();
+            int result = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to Add Return transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
+                    JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                Transaction transaction = new Transaction(erp, id, "Borrow");
+                String returnTransaction = TransactionManager.addReturn(transaction);
+                if (returnTransaction.equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(null, "Return transaciton Successfully Added!", returnTransaction,
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    mainFrame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, returnTransaction, "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        LibraryApp.addComponent(addPanel, borrowButton, gbc, 0, 3);
 
         mainFrame.add(headPanel, BorderLayout.NORTH);
         mainFrame.add(addPanel, BorderLayout.CENTER);
@@ -149,69 +204,72 @@ public class TransactionPanel extends JPanel {
         return mainFrame;
     }
 
-    private JFrame removeFrame() {
-        JFrame mainFrame = new BaseFrame(800, 600, "Remove Student", null);
+    private JFrame showFrame() {
+
+        JFrame mainFrame = new BaseFrame(800, 600, "Transactions", null);
 
         Color bgColor = new Color(15354950);
         Color fgColor = Color.white;
-        JPanel headPanel = new BaseHeadPanel("Remove Student", bgColor, fgColor, homeFont, 10, 20);
 
-        JPanel removePanel = new JPanel();
-        removePanel.setLayout(new GridBagLayout());
+        JPanel headPanel = new BaseHeadPanel("Transactions", bgColor, fgColor, homeFont, 20, 30);
+        headPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+
+        JPanel transactionPanel = new JPanel(new BorderLayout());
+
+        BaseImagePanel buttonsPanel = new BaseImagePanel("src/images/studentBackground2.jpg");
+        buttonsPanel.setLayout(new GridBagLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
+        gbc.insets = new Insets(20, 20, 20, 20);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel studentErp = LibraryApp.createLabel("Student ERP", font);
-        LibraryApp.addComponent(removePanel, studentErp, gbc, 0, 0);
-
-        JTextField erpField = LibraryApp.createTextField(font);
-        LibraryApp.addComponent(removePanel, erpField, gbc, 1, 0);
-
-        JButton removeButton = new JButton("Remove Student");
-
-        removeButton.addActionListener(e -> {
-            String erp = erpField.getText().toUpperCase();
-            int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to remove student with ERP: " + erp + "?", "Remove Confirm",
-                    JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                String removeStudent = StudentManager.removeStudent(erp);
-                if (removeStudent.equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(null, "Student Successfully Removed!", removeStudent,
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    mainFrame.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, removeStudent, "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        JButton showBorrows = new JButton("Borrow Transactions");
+        showBorrows.setFont(font);
+        showBorrows.addActionListener(e -> {
+            borrowTransactions();
+            System.out.println("Borrow");
         });
-        LibraryApp.addComponent(removePanel, removeButton, gbc, 0, 3);
+        LibraryApp.addComponent(buttonsPanel, showBorrows, gbc, 0, 0);
 
-        mainFrame.add(headPanel, BorderLayout.NORTH);
-        mainFrame.add(removePanel, BorderLayout.CENTER);
+        JButton showReturns = new JButton("Return Transactions");
+        showReturns.setFont(font);
+        showReturns.addActionListener(e -> {
+            returnTransactions();
+            System.out.println("Return");
+        });
+        LibraryApp.addComponent(buttonsPanel, showReturns, gbc, 0, 1);
+
+        JButton showTransactions = new JButton("All Transactions");
+        showTransactions.setFont(font);
+        showTransactions.addActionListener(e -> {
+            allTransactions();
+            System.out.println("Show");
+        });
+        LibraryApp.addComponent(buttonsPanel, showTransactions, gbc, 0, 2);
+
+        transactionPanel.add(headPanel, BorderLayout.NORTH);
+        transactionPanel.add(buttonsPanel, BorderLayout.CENTER);
+
+        mainFrame.add(transactionPanel, BorderLayout.CENTER);
 
         mainFrame.setVisible(true);
-
         return mainFrame;
     }
 
-    private JFrame showFrame() {
-
-        JFrame mainFrame = new BaseFrame(800, 600, "Student Data", null);
+    private JFrame allTransactions()
+    {
+        JFrame mainFrame = new BaseFrame(800, 600, "Transaction Data", null);
 
         Color bgColor = new Color(15354950);
         Color fgColor = Color.white;
 
-        JPanel headPanel = new BaseHeadPanel("Student Details", bgColor, fgColor, homeFont, 10, 20);
+        JPanel headPanel = new BaseHeadPanel("Transaction Details", bgColor, fgColor, homeFont, 10, 20);
 
-        String[] columnNames = { "ERP ID", "Name", "Course" };
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date", "Due Date"};
 
-        List<String[]> students = StudentManager.getAllStudents();
-        String[][] data = students.toArray(new String[0][]);
+        List<String[]> transactions = TransactionManager.getAllTransactions();
+        String[][] data = transactions.toArray(new String[0][]);
 
         JScrollPane dataTable = new BaseTable(data, columnNames);
 
@@ -222,24 +280,51 @@ public class TransactionPanel extends JPanel {
 
         return mainFrame;
     }
+    private JFrame borrowTransactions()
+    {
+        JFrame mainFrame = new BaseFrame(800, 600, "Transaction Data", null);
 
+        Color bgColor = new Color(15354950);
+        Color fgColor = Color.white;
 
-    // private JFrame trollFrame()
-    // {
+        JPanel headPanel = new BaseHeadPanel("Transaction Details", bgColor, fgColor, homeFont, 10, 20);
 
-    // JFrame mainFrame = new JFrame();
-    // mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    // mainFrame.setSize(800, 600);
-    // mainFrame.setLayout(new BorderLayout());
-    // mainFrame.setResizable(false);
-    // JPanel panel = new JPanel();
-    // panel.setBackground(Color.red);
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date", "Due Date"};
 
-    // mainFrame.add(panel, BorderLayout.CENTER);
+        List<String[]> transactions = TransactionManager.getAllBorrows();
+        String[][] data = transactions.toArray(new String[0][]);
 
-    // mainFrame.setVisible(true);
+        JScrollPane dataTable = new BaseTable(data, columnNames);
 
-    // return mainFrame;
-    // }
+        mainFrame.add(dataTable, BorderLayout.CENTER);
+        mainFrame.add(headPanel, BorderLayout.NORTH);
 
+        mainFrame.setVisible(true);
+
+        return mainFrame;
+    }
+    private JFrame returnTransactions()
+    {
+        JFrame mainFrame = new BaseFrame(800, 600, "Transaction Data", null);
+
+        Color bgColor = new Color(15354950);
+        Color fgColor = Color.white;
+
+        JPanel headPanel = new BaseHeadPanel("Transaction Details", bgColor, fgColor, homeFont, 10, 20);
+
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date", "Due Date"};
+
+        List<String[]> transactions = TransactionManager.getAllReturns();
+        String[][] data = transactions.toArray(new String[0][]);
+
+        JScrollPane dataTable = new BaseTable(data, columnNames);
+
+        mainFrame.add(dataTable, BorderLayout.CENTER);
+        mainFrame.add(headPanel, BorderLayout.NORTH);
+
+        mainFrame.setVisible(true);
+
+        return mainFrame;
+    }
+   
 }
