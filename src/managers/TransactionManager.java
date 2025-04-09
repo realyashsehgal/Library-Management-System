@@ -165,7 +165,6 @@ public class TransactionManager {
 
             Date transactionDate = rs.getDate("Transaction_Date");
             String formattedTransactionDate = transactionDate.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM, yyyy"));
-            
 
             Date dueDate = rs.getDate("Due_Date");
             String formattedDueDate = dueDate == null ? "N/A" : dueDate.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM, yyyy"));

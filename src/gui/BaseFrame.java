@@ -8,7 +8,6 @@ public class BaseFrame extends JFrame{
 
     public BaseFrame(int width, int height, String title, ImageIcon logo)
     {   
-        System.out.println("Library app");
         this.setTitle(title);
         this.setSize(width,height);
         this.setResizable(false);

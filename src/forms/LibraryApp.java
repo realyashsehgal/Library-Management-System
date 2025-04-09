@@ -17,6 +17,7 @@ public class LibraryApp {
     JButton homeButton;
     public LibraryApp()
     {
+        
         JFrame frame = new BaseFrame(1600, 900, "Library Management System", null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

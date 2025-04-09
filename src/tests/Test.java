@@ -4,6 +4,7 @@
 // import com.mysql.cj.protocol.Resultset;
 
 // import src.models.Student;
+// import src.models.User;
 
 // public class Test {
     
@@ -16,9 +17,12 @@
 //             String password = "Rohit1Rajat@";
 //             Connection conn = DriverManager.getConnection(url, user, password);
 //             Statement stmt = conn.createStatement();
-//             for(int i = 0; i < 10; i++)
-//             {
-//                 stmt.executeUpdate("INSERT INTO Book (Book_ID, Title, Author) VALUES ('B"+i+"','ABCDE', 'BCDEF')");
+//             ResultSet rs = stmt.executeQuery("SELECT * FROM Users");
+//             User user1 = new User(null, null);
+//             while (rs.next()) {
+//                 user1.setUsername(rs.getString("Username"));
+//                 user1.setPassword(rs.getString("Password"));
+//                 System.out.println(user1.toString());
 //             }
 //         }
 //         catch(Exception e)

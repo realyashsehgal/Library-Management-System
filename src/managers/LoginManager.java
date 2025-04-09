@@ -1,41 +1,104 @@
 package src.managers;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import src.models.User;
 
 public class LoginManager {
 
-    private static Map<String, String> details = new HashMap<>();
+    private static final String createQuery = "INSERT INTO Users (Username, Password) VALUES (?, ?)";
+    private static final String checkQuery = "SELECT * FROM Users";
 
-    public static boolean CreateAccount(String user, String pass)
+    private static Connection conn;
+    private static PreparedStatement stmt;
+    private static ResultSet rs;
+    private static String tempUsername;
+    private static String tempPassword;
+
+    public static String CreateAccount(User user)
     {
-        if(details.containsKey(user.toLowerCase()))
+        if(user.getUsername().isEmpty() || user.getPassword().isEmpty())
         {
-            return false;
+            return "Fields Can not be Empty";
         }
-        else if(user.isBlank() || pass.isBlank())
+        if(exists(user))
         {
-            return false;
+            return "This user already exists";
         }
-        else
+        try{
+            conn = DatabaseManager.GetConnection();
+            stmt = conn.prepareStatement(createQuery);
+
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+
+            stmt.executeUpdate();
+
+            return "SUCCESS";
+        }catch(SQLException e)
         {
-            details.put(user.toLowerCase(), pass);
-            System.out.println(details);
-            return true;
+            return e.getMessage();
         }
-        
+        finally
+        {
+            DatabaseManager.close(conn, stmt, rs);
+        }
     }
 
-    public static boolean CheckDetails(String user, String pass)
+    public static String CheckDetails(User user)
     {
-        if(details.containsKey(user.toLowerCase()) && details.get(user.toLowerCase()).equals(pass))
+        if(user.getUsername().isEmpty() || user.getPassword().isEmpty())
         {
-            return true;
+            return "Fields Can not be Empty";
         }
-        else
+        try{
+            conn = DatabaseManager.GetConnection();
+            stmt = conn.prepareStatement(checkQuery);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                tempUsername = rs.getString("Username");
+                tempPassword = rs.getString("Password");
+                if(user.getUsername().equals(tempUsername) && user.getPassword().equals(tempPassword))
+                    return "SUCCESS";
+            }
+
+            return "Invalid Credentials";
+        }catch(SQLException e)
         {
-            return false;
+            return e.getMessage();
+        }
+        finally
+        {
+            DatabaseManager.close(conn, stmt, rs);
         }
     }
 
-    
-    
+    private static boolean exists(User user)
+    {
+        try
+        {
+            conn = DatabaseManager.GetConnection();
+            stmt = conn.prepareStatement(checkQuery);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if(rs.getString("Username").equals(user.getUsername()))
+                return true;
+            }
+            return false;
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        finally
+        {
+            DatabaseManager.close(conn, stmt, rs);
+        }
+    }
+
 }
