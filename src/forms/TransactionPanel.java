@@ -121,13 +121,13 @@ public class TransactionPanel extends JPanel {
             String erp = erpField.getText().toUpperCase();
             String id = idField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to Add Borrow transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
+                    "Are you sure you want to Add Borrow Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 Transaction transaction = new Transaction(erp, id, "Borrow");
                 String borrowTransaction = TransactionManager.addBorrow(transaction);
                 if (borrowTransaction.equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(null, "Borrow transaciton Successfully Added!", borrowTransaction,
+                    JOptionPane.showMessageDialog(null, "Borrow Transaction Successfully Added!", borrowTransaction,
                             JOptionPane.INFORMATION_MESSAGE);
 
                     mainFrame.dispose();
@@ -185,13 +185,13 @@ public class TransactionPanel extends JPanel {
             String erp = erpField.getText().toUpperCase();
             String id = idField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to Add Return transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
+                    "Are you sure you want to Add Return Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 Transaction transaction = new Transaction(erp, id, "Borrow");
                 String returnTransaction = TransactionManager.addReturn(transaction);
                 if (returnTransaction.equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(null, "Return transaciton Successfully Added!", returnTransaction,
+                    JOptionPane.showMessageDialog(null, "Return Transaction Successfully Added!", returnTransaction,
                             JOptionPane.INFORMATION_MESSAGE);
 
                     mainFrame.dispose();

@@ -26,8 +26,6 @@ public class LoginFrame {
 
     public LoginFrame() {
 
-        System.out.println("LoginFrame created");
-
         JFrame frame = new BaseFrame(800, 600, "Login Window", logo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
