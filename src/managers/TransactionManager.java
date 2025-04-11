@@ -101,6 +101,7 @@ public class TransactionManager {
         if(pastDue > 0)
         {
             JOptionPane.showMessageDialog(null, "Book is Past due for "+ pastDue + " Days", "Past Due", JOptionPane.WARNING_MESSAGE);
+            pastDue = 0;
         }
         try
         {

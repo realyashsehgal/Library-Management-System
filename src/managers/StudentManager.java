@@ -136,24 +136,4 @@ public class StudentManager {
     }
 }
 
-    // private int doesExist(String erp)
-    // {
-    //     try
-    //     {
-    //     conn = DatabaseManager.GetConnection();
-    //     st = conn.prepareStatement("SELECT * FROM Student WHERE ERP_ID = ?");
-    //     st.setString(1, erp);
-    //     rs = st.executeQuery();
-
-
-    //     }   
-    //     catch(SQLException e)
-    //     {
-
-    //     }
-    //     finally
-    //     {
-    //         DatabaseManager.close(conn, st, rs);
-    //     }
-    // }
 
