@@ -11,7 +11,10 @@ public class BaseFrame extends JFrame{
         this.setTitle(title);
         this.setSize(width,height);
         this.setResizable(false);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout()); 
+        if(logo != null)
+            this.setIconImage(logo.getImage());
+        
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }

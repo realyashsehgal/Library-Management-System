@@ -1,34 +1,32 @@
-// package src.tests;
-// import java.sql.*;
+package src.tests;
+import java.sql.*;
 
-// import com.mysql.cj.protocol.Resultset;
+import src.models.Student;
+import src.models.User;
 
-// import src.models.Student;
-// import src.models.User;
-
-// public class Test {
+public class Test {
     
-//     static Student student;
-//     public static void main(String[] args) {
-//         try
-//         {
-//             String url = "jdbc:mysql://localhost:3306/db";
-//             String user = "root";
-//             String password = "Rohit1Rajat@";
-//             Connection conn = DriverManager.getConnection(url, user, password);
-//             Statement stmt = conn.createStatement();
-//             ResultSet rs = stmt.executeQuery("SELECT * FROM Users");
-//             User user1 = new User(null, null);
-//             while (rs.next()) {
-//                 user1.setUsername(rs.getString("Username"));
-//                 user1.setPassword(rs.getString("Password"));
-//                 System.out.println(user1.toString());
-//             }
-//         }
-//         catch(Exception e)
-//         {
-//             System.out.println(e.getMessage());
-//         }
-//     }
-// }
+    static Student student;
+    public static void main(String[] args) {
+        try
+        {
+            String url = "jdbc:mysql://localhost:3306/LMS";
+            String user = "root";
+            String password = "Rohit1Rajat@";
+            Connection conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users");
+            User user1 = new User(null, null);
+            while (rs.next()) {
+                user1.setUsername(rs.getString("Username"));
+                user1.setPassword(rs.getString("Password"));
+                System.out.println(user1.toString());
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+}
 

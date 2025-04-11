@@ -3,7 +3,8 @@ import javax.swing.*;
 
 import src.forms.LibraryApp;
 import src.gui.BaseFrame;
-import src.gui.BaseHeadPanel;
+import src.gui.BaseHeadImagePanel;
+import src.gui.BaseImagePanel;
 import src.managers.LoginManager;
 import src.models.User;
 
@@ -18,20 +19,21 @@ public class LoginFrame {
     JPasswordField confirmPassField;
     JCheckBox showPass;
 
+    private static final Color WHITE = new Color(255,255,255);
+
     User tempUser = new User(null, null);
+    ImageIcon logo = new ImageIcon("src/images/LMS.jpg");
 
     public LoginFrame() {
 
         System.out.println("LoginFrame created");
 
-        JFrame frame = new BaseFrame(800, 600, "Login Window", null);
+        JFrame frame = new BaseFrame(800, 600, "Login Window", logo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Color bgColor = Color.lightGray;
-        Color fgColor = Color.cyan;
-
-        JPanel headPanel = new BaseHeadPanel("Login/Sign Up", bgColor, fgColor, headFont, 20, 30);
-        JPanel loginPanel = new JPanel(new GridBagLayout());
+        JPanel headPanel = new BaseHeadImagePanel("Login/Sign Up", headFont, 20, 30);
+        JPanel loginPanel = new BaseImagePanel("src/images/loginFrame.jpg");
+        loginPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10,10,10,10);
@@ -41,12 +43,12 @@ public class LoginFrame {
         
         JButton loginButton = new JButton("Log In");
         loginButton.setFont(font);
-        loginButton.addActionListener(e -> {
-            loginFrame(frame);
-        });
+        loginButton.setBackground(WHITE);
+        loginButton.addActionListener(e -> loginFrame(frame));
 
         JButton signupButton = new JButton("Sign Up");
         signupButton.setFont(font);
+        signupButton.setBackground(WHITE);
         signupButton.addActionListener(e -> signupFrame());
 
         LibraryApp.addComponent(loginPanel, loginButton, gbc, 0, 0);
@@ -62,19 +64,19 @@ public class LoginFrame {
     private JFrame loginFrame(JFrame frame)
     {
         JFrame mainFrame = new BaseFrame(800, 600, "Log in", null);
+        JPanel headPanel = new BaseHeadImagePanel("Log In", headFont, 20, 30);
 
-        Color bgColor = new Color(200, 50, 50);
-        Color fgColor = Color.cyan;
-        JPanel headPanel = new BaseHeadPanel("Log In", bgColor, fgColor, headFont, 20, 30);
-
-        JPanel mainPanel = new JPanel();
+        JPanel mainPanel = new BaseImagePanel("src/images/loginPanel.jpg");
         mainPanel.setLayout(new GridBagLayout());
+
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel userLabel = LibraryApp.createLabel("Username: ", font);
+        userLabel.setForeground(WHITE);
         LibraryApp.addComponent(mainPanel, userLabel, gbc, 0, 0);
 
         
@@ -82,6 +84,7 @@ public class LoginFrame {
         LibraryApp.addComponent(mainPanel, usernameField, gbc, 1, 0);
 
         JLabel passLabel = LibraryApp.createLabel("Password: ", font);
+        passLabel.setForeground(WHITE);
         LibraryApp.addComponent(mainPanel, passLabel, gbc, 0, 1);
 
         passField = new JPasswordField();
@@ -106,6 +109,7 @@ public class LoginFrame {
 
         JButton submitButton = new JButton("Login");
         submitButton.setFont(font);
+        submitButton.setBackground(WHITE);
         submitButton.addActionListener(e -> {
             tempUser.setUsername(usernameField.getText());
             tempUser.setPassword(new String(passField.getPassword()));
@@ -135,12 +139,9 @@ public class LoginFrame {
     private JFrame signupFrame()
     {
         JFrame mainFrame = new BaseFrame(800, 600, "Sign Up", null);
+        JPanel headPanel = new BaseHeadImagePanel("Sign Up",  headFont, 20, 30);
 
-        Color bgColor = new Color(200, 20, 15);
-        Color fgColor = Color.cyan;
-        JPanel headPanel = new BaseHeadPanel("Sign Up", bgColor, fgColor, headFont, 20, 30);
-
-        JPanel mainPanel = new JPanel();
+        JPanel mainPanel = new BaseImagePanel("src/images/loginPanel.jpg");
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -148,6 +149,7 @@ public class LoginFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel userLabel = LibraryApp.createLabel("Create Username: ", font);
+        userLabel.setForeground(WHITE);
         LibraryApp.addComponent(mainPanel, userLabel, gbc, 0, 0);
 
         
@@ -155,6 +157,7 @@ public class LoginFrame {
         LibraryApp.addComponent(mainPanel, usernameField, gbc, 1, 0);
 
         JLabel passLabel = LibraryApp.createLabel("Create Password: ", font);
+        passLabel.setForeground(WHITE);
         LibraryApp.addComponent(mainPanel, passLabel, gbc, 0, 1);
 
         passField = new JPasswordField();
@@ -177,6 +180,7 @@ public class LoginFrame {
         LibraryApp.addComponent(mainPanel, showPass, gbc, 2, 1);
 
         JLabel confirmPassLabel = LibraryApp.createLabel("Confirm Password: ", font);
+        confirmPassLabel.setForeground(WHITE);
         LibraryApp.addComponent(mainPanel, confirmPassLabel, gbc, 0, 2);
 
         confirmPassField = new JPasswordField();
@@ -186,6 +190,7 @@ public class LoginFrame {
 
         JButton submitButton = new JButton("Create Account");
         submitButton.setFont(font);
+        submitButton.setBackground(WHITE);
         submitButton.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to add this User?", "Confirm Dialog", JOptionPane.YES_NO_OPTION);
             if(result == JOptionPane.YES_OPTION)

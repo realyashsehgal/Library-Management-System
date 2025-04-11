@@ -2,8 +2,11 @@ package src.managers;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import src.models.*;
 
@@ -13,7 +16,7 @@ public class TransactionManager {
 
     private static final String addReturn = "INSERT INTO Transactions (Student_ERP, Book_ID, Type, Transaction_Date, Due_Date) VALUES (?, ?, 'Return', CURRENT_DATE, NULL)";
 
-    private static final String getQuery = "SELECT Type FROM Transactions WHERE Student_ERP = ? AND Book_ID = ? ORDER BY Transaction_ID DESC LIMIT 1";
+    private static final String getQuery = "SELECT * FROM Transactions WHERE Student_ERP = ? AND Book_ID = ? ORDER BY Transaction_ID DESC LIMIT 1";
 
     private static final String showQuery = "SELECT * FROM Transactions";
 
@@ -29,6 +32,8 @@ public class TransactionManager {
 
     private static final String AVAIALABLE = "Yes";
     private static final String UNAVAIALABLE = "No";
+
+    private static long pastDue = 0;
 
     public static String addBorrow(Transaction transaction)
     {
@@ -93,6 +98,10 @@ public class TransactionManager {
         {
             return "The book was not borrowed by this student";
         }
+        if(pastDue > 0)
+        {
+            JOptionPane.showMessageDialog(null, "Book is Past due for "+ pastDue + " Days", "Past Due", JOptionPane.WARNING_MESSAGE);
+        }
         try
         {
         conn = DatabaseManager.GetConnection();
@@ -130,7 +139,14 @@ public class TransactionManager {
             String type = rs.getString("Type");
             
             if(type.equals("Borrow"))
+            {
+                System.out.println(rs.getDate("Due_Date"));
+                System.out.println(rs.getDate("Transaction_Date"));
+                pastDue = checkPastDue(rs.getDate("Due_Date").toLocalDate()); 
+                System.out.println("Past Due: " + pastDue );
                 return true;
+
+            }
             else
                 return false;
         }
@@ -273,11 +289,16 @@ public class TransactionManager {
         }
     }
     
-    public static Integer checkPastDue(LocalDate returnDate, LocalDate dueDate)
+    public static long checkPastDue(LocalDate dueDate)
     {
-        
-
-        return 0;
+        if(LocalDate.now().isAfter(dueDate))
+        {
+            return ChronoUnit.DAYS.between(dueDate, LocalDate.now());
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 

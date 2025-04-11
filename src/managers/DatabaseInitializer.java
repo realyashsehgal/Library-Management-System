@@ -1,13 +1,23 @@
 package src.managers;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.SQLException;
 
 public class DatabaseInitializer {
+    private static final String url = "jdbc:mysql://localhost:3306";
+    private static final String user = "root";
+    private static final String password = "Rohit1Rajat@";
     public static void initialize() {
-        try (Connection conn = DatabaseManager.GetConnection()) {
+        try {
+            Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
+
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS LMS");
+
+            conn = DatabaseManager.GetConnection();
+            stmt = conn.createStatement();
 
             stmt.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS Student (" +
@@ -20,7 +30,7 @@ public class DatabaseInitializer {
                 "Book_ID VARCHAR(10) PRIMARY KEY, " +
                 "Title VARCHAR(100), " +
                 "Author VARCHAR(100), " +
-                "Availability ENUM('Yes', 'No'))");
+                "Availability ENUM('Yes', 'No') DEFAULT 'Yes')");
 
             stmt.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS Transactions (" +

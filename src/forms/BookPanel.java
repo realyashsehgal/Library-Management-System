@@ -3,6 +3,7 @@ package src.forms;
 import javax.swing.*;
 
 import src.gui.BaseFrame;
+import src.gui.BaseHeadImagePanel;
 import src.gui.BaseHeadPanel;
 import src.gui.BaseImagePanel;
 import src.gui.BaseTable;
@@ -18,21 +19,22 @@ public class BookPanel extends JPanel {
     private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
 
+    private static final Color WHITE = new Color(255,255,255);
+    private static final Color BROWN = new Color(132, 72, 47);
+    private static final Color PURPLE = new Color(160, 10,255);
+
     public BookPanel() {
         this.setLayout(new BorderLayout());
 
         String[] buttons = { "Home", "Student", "Transaction" };
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
-
-        JPanel headPanel = new BaseHeadPanel("Book Data", bgColor, fgColor, headingFont, 20, 30);
+        JPanel headPanel = new BaseHeadImagePanel("Book Data", headingFont, 20, 30);
         headPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 
         JPanel bookPanel = new JPanel(new BorderLayout());
 
-        BaseImagePanel buttonsPanel = new BaseImagePanel("src/images/studentBackground2.jpg");
+        BaseImagePanel buttonsPanel = new BaseImagePanel("src/images/bookPanel.jpg");
         buttonsPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -64,6 +66,13 @@ public class BookPanel extends JPanel {
         });
         LibraryApp.addComponent(buttonsPanel, showButton, gbc, 0, 2);
 
+        JButton[] mainButtons = {addButton, removeButton, showButton};
+        for(JButton button: mainButtons)
+        {   
+            button.setBackground(WHITE);
+            button.setForeground(PURPLE);
+        }
+
         bookPanel.add(headPanel, BorderLayout.NORTH);
         bookPanel.add(buttonsPanel, BorderLayout.CENTER);
 
@@ -74,12 +83,9 @@ public class BookPanel extends JPanel {
 
     private JFrame addFrame() {
         JFrame mainFrame = new BaseFrame(800, 600, "Add Book", null);
+        JPanel headPanel = new BaseHeadImagePanel("Add Book", homeFont, 10, 20);
 
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
-        JPanel headPanel = new BaseHeadPanel("Add Book", bgColor, fgColor, homeFont, 10, 20);
-
-        JPanel addPanel = new JPanel();
+        JPanel addPanel = new BaseImagePanel("src/images/addBook.jpg");
         addPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -95,6 +101,7 @@ public class BookPanel extends JPanel {
 
         for (int i = 0; i < labels.length; i++) {
 
+            labels[i].setForeground(WHITE   );
             LibraryApp.addComponent(addPanel, labels[i], gbc, 0, i);
 
         }
@@ -131,6 +138,7 @@ public class BookPanel extends JPanel {
                 }
             }
         });
+        addButton.setBackground(WHITE);
         LibraryApp.addComponent(addPanel, addButton, gbc, 0, 3);
 
         mainFrame.add(headPanel, BorderLayout.NORTH);
@@ -144,11 +152,9 @@ public class BookPanel extends JPanel {
     private JFrame removeFrame() {
         JFrame mainFrame = new BaseFrame(800, 600, "Remove Book", null);
 
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
-        JPanel headPanel = new BaseHeadPanel("Remove Book", bgColor, fgColor, homeFont, 10, 20);
+        JPanel headPanel = new BaseHeadImagePanel("Remove Book", homeFont, 10, 20);
 
-        JPanel removePanel = new JPanel();
+        JPanel removePanel = new BaseImagePanel("src/images/removeBook.png");
         removePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -157,6 +163,7 @@ public class BookPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel bookId = LibraryApp.createLabel("Book ID: ", font);
+        bookId.setForeground(WHITE);
         LibraryApp.addComponent(removePanel, bookId, gbc, 0, 0);
 
         JTextField idField = LibraryApp.createTextField(font);
@@ -181,6 +188,7 @@ public class BookPanel extends JPanel {
                 }
             }
         });
+        removeButton.setBackground(WHITE);
         LibraryApp.addComponent(removePanel, removeButton, gbc, 0, 3);
 
         mainFrame.add(headPanel, BorderLayout.NORTH);
@@ -196,10 +204,7 @@ public class BookPanel extends JPanel {
 
         JFrame mainFrame = new BaseFrame(800, 600, "Book Data", null);
 
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
-
-        JPanel headPanel = new BaseHeadPanel("Book Details", bgColor, fgColor, homeFont, 10, 20);
+       JPanel headPanel = new BaseHeadPanel("Book Details", BROWN, WHITE, homeFont, 20, 30);
 
         String[] columnNames = { "Book ID", "Title", "Author" , "Availability"};
 

@@ -5,20 +5,18 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-public class BaseHeadPanel extends JPanel{
+public class BaseHeadImagePanel extends BaseImagePanel{
     
-    public BaseHeadPanel(String title, Color bgColor, Color fgColor, Font headingFont, int hgap, int vgap)
+    public BaseHeadImagePanel(String title, Font headingFont, int hgap, int vgap)
     {
+        super("src/images/headPanel.png");
         this.setLayout(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
         
         JLabel heading = new JLabel(title);
         heading.setFont(headingFont);
-        heading.setForeground(fgColor);
+        heading.setForeground(Color.white);
 
         this.add(heading);
-
-        this.setBackground(bgColor);
     }
 }

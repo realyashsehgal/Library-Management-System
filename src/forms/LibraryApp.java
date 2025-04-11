@@ -4,20 +4,24 @@ import java.awt.*;
 import javax.swing.*;
 
 import src.gui.BaseFrame;
-import src.gui.BaseHeadPanel;
+import src.gui.BaseHeadImagePanel;
+import src.gui.BaseImagePanel;
 
 public class LibraryApp {
 
     public static JPanel mainPanel;
     public static CardLayout cardLayout;
 
-    private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
-    private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
-    
-    JButton homeButton;
+    private Font HEADING_FONT = new Font("Montserrat", Font.BOLD, 60);
+    private Font HOME_FONT = new Font("Montserrat", Font.BOLD, 40);
+
+    private static final Color WHITE = new Color(255,255,255);
+    private static final Color PURPLE = new Color(160, 10,255);
+
+    ImageIcon logo = new ImageIcon("src/images/LMS.jpg");
+
     public LibraryApp()
     {
-        
         JFrame frame = new BaseFrame(1600, 900, "Library Management System", null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -42,12 +46,10 @@ public class LibraryApp {
     {
         JPanel mainHomePanel = new JPanel(new BorderLayout());
 
-        Color bgColor = new Color(15354950);
-        Color fgColor = Color.white;
+        JPanel headPanel = new BaseHeadImagePanel("Library Management System", HEADING_FONT, 30, 50);
         
-        JPanel headPanel = new BaseHeadPanel("Library Management System", bgColor, fgColor, headingFont, 30, 50);
-
-        JPanel homePanel = new JPanel(new GridBagLayout());
+        JPanel homePanel = new BaseImagePanel("src/images/mainPanel.jpg");
+        homePanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 20, 20, 20);
@@ -64,7 +66,10 @@ public class LibraryApp {
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
             buttons[i] = new JButton();
-            JLabel label = LibraryApp.createLabel(buttonNames[i] + " Panel" , homeFont);
+            buttons[i].setBackground(WHITE);
+            JLabel label = LibraryApp.createLabel(buttonNames[i] , HOME_FONT);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            label.setForeground(PURPLE);
             buttons[i].add(label);
             buttons[i].addActionListener(e->{
                 cardLayout.show(mainPanel, buttonNames[index]);
@@ -84,22 +89,37 @@ public class LibraryApp {
 
     public static JPanel createRibbonPanel (String[] buttons, Font font)
     {   
-        JPanel ribbonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 30));
+        JPanel mainRibbonPanel = new BaseImagePanel("src/images/ribbonPanel.png");
+        mainRibbonPanel.setLayout(new BorderLayout());
 
+        JPanel leftRibbonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 230, 30));
+        JPanel rightRibbonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 230, 30));
+        leftRibbonPanel.setOpaque(false);
+        rightRibbonPanel.setOpaque(false);
+        
         for (String buttonName : buttons) {
             
             JButton button = new JButton();
-            JLabel buttonLabel = createLabel(buttonName + " Panel", font);
+            JLabel buttonLabel = createLabel(buttonName, font);
+            button.setBackground(WHITE);
             button.add(buttonLabel);
             button.addActionListener(e->
             {
                 cardLayout.show(mainPanel, buttonName);
             });
-            ribbonPanel.add(button);
+            if(buttonName.equals("Home"))
+            {
+                leftRibbonPanel.add(button);
+            }
+            else
+                rightRibbonPanel.add(button);
         }
-        ribbonPanel.setBorder(BorderFactory.createLineBorder(Color.white, 1));
-        ribbonPanel.setBackground(new Color(123, 50, 250));
-        return ribbonPanel;
+        mainRibbonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
+        mainRibbonPanel.add(leftRibbonPanel, BorderLayout.WEST);
+        mainRibbonPanel.add(rightRibbonPanel, BorderLayout.EAST);
+
+        return mainRibbonPanel;
     }
     public static JLabel createLabel(String text, Font newFont)
     {
