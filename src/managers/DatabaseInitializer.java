@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public class DatabaseInitializer {
     private static final String url = "jdbc:mysql://localhost:3306";
-    private static final String user = "root";
-    private static final String password = "Rohit1Rajat@";
+    private static String user = "";
+    private static String password = "";
     public static void initialize() {
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
@@ -50,5 +50,11 @@ public class DatabaseInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static void getCreds() throws IOException {
+        String creds = Files.readString(Path.of("lib/SQLConfig.txt"));
+        String[] arr = creds.split("\n");
+        user = arr[0];
+        password = arr[1];
     }
 }
