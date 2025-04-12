@@ -1,5 +1,8 @@
 package src.managers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 
 public class DatabaseManager {
@@ -36,6 +39,7 @@ public class DatabaseManager {
         } catch (Exception e) {
         }
     }
+
     public static void getCreds() throws IOException {
         String creds = Files.readString(Path.of("lib/SQLConfig.txt"));
         String[] arr = creds.split("\n");
