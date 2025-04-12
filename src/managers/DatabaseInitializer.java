@@ -26,14 +26,14 @@ public class DatabaseInitializer {
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS Student (" +
                             "ERP_ID VARCHAR(10) PRIMARY KEY, " +
-                            "Name VARCHAR(100), " +
-                            "Course VARCHAR(100))");
+                            "Name VARCHAR(50), " +
+                            "Course VARCHAR(5))");
 
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS Book (" +
                             "Book_ID VARCHAR(10) PRIMARY KEY, " +
-                            "Title VARCHAR(100), " +
-                            "Author VARCHAR(100), " +
+                            "Title VARCHAR(50), " +
+                            "Author VARCHAR(50), " +
                             "Availability ENUM('Yes', 'No') DEFAULT 'Yes')");
 
             stmt.executeUpdate(
@@ -47,8 +47,8 @@ public class DatabaseInitializer {
 
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS Users (" +
-                            "Username VARCHAR(20) PRIMARY KEY, " +
-                            "Password VARCHAR(20));");
+                            "Username VARCHAR(50) PRIMARY KEY, " +
+                            "Password VARCHAR(50));");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class DatabaseInitializer {
     public static void getCreds() throws IOException {
         String creds = Files.readString(Path.of("lib/SQLConfig.txt"));
         String[] arr = creds.split("\n");
-        user = arr[0];
-        password = arr[1];
+        user = arr[0].trim();
+        password = arr[1].trim();
     }
 }
