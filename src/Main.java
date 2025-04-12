@@ -1,4 +1,7 @@
 package src;
+
+import java.io.IOException;
+
 import javax.swing.SwingUtilities;
 
 import src.managers.DatabaseInitializer;
@@ -8,7 +11,7 @@ import src.ui.LoginFrame;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-           try {
+            try {
                 DatabaseManager.getCreds();
                 DatabaseInitializer.getCreds();
             } catch (IOException e) {
@@ -16,5 +19,5 @@ public class Main {
             }
             new LoginFrame();
         });
-    }   
+    }
 }
