@@ -18,6 +18,7 @@ public class LoginFrame {
     JPasswordField passField;
     JPasswordField confirmPassField;
     JCheckBox showPass;
+    JFrame frame;
 
     private static final Color WHITE = new Color(255,255,255);
 
@@ -26,7 +27,7 @@ public class LoginFrame {
 
     public LoginFrame() {
 
-        JFrame frame = new BaseFrame(800, 600, "Login Window", logo);
+        frame = new BaseFrame(800, 600, "Login Window", logo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel headPanel = new BaseHeadImagePanel("Login/Sign Up", headFont, 20, 30);
@@ -228,4 +229,8 @@ public class LoginFrame {
         return mainFrame;
     }
     
+    public static void exitFrame()
+    {
+        
+    }
 }

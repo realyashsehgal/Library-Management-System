@@ -29,6 +29,11 @@ public class LoginManager {
         }
         try{
             conn = DatabaseManager.GetConnection();
+            if(conn == null)
+            {
+                System.out.println("LOL");
+                return "Invalid Mysql Credentials, Please Check SQLConfig.txt";
+            }
             stmt = conn.prepareStatement(createQuery);
 
             stmt.setString(1, user.getUsername());
@@ -55,6 +60,8 @@ public class LoginManager {
         }
         try{
             conn = DatabaseManager.GetConnection();
+            if(conn == null)
+                return "Invalid Mysql Credentials, Please Check SQLConfig.txt";
             stmt = conn.prepareStatement(checkQuery);
             rs = stmt.executeQuery();
 

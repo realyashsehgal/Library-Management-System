@@ -6,6 +6,11 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+import src.ui.LoginFrame;
+
 import java.sql.SQLException;
 
 public class DatabaseInitializer {
@@ -13,8 +18,8 @@ public class DatabaseInitializer {
     private static String user = "";
     private static String password = "";
 
-    public static void initialize() {
-        try {
+    public static int initialize() {
+        try {         
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
 
@@ -50,9 +55,12 @@ public class DatabaseInitializer {
                             "Username VARCHAR(50) PRIMARY KEY, " +
                             "Password VARCHAR(50));");
 
+            return 1;
+
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            JOptionPane.showMessageDialog(null, "Error Connecting to SQL, Please Check SQLConfig.txt!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return 0;
+            }
     }
 
     public static void getCreds() throws IOException {

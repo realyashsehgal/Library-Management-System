@@ -13,11 +13,11 @@ public class DatabaseManager {
 
     public static Connection GetConnection() {
         try {
-            System.out.println(user);
-            System.out.println(password);
+            
             return DriverManager.getConnection(url, user, password);
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            
             return null;
         }
     }
