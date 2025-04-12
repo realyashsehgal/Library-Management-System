@@ -2,6 +2,7 @@ package src;
 import javax.swing.SwingUtilities;
 
 import src.managers.DatabaseInitializer;
+import src.managers.DatabaseManager;
 import src.ui.LoginFrame;
 
 public class Main {
