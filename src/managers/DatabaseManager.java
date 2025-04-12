@@ -5,8 +5,8 @@ import java.sql.*;
 public class DatabaseManager {
 
     private static final String url = "jdbc:mysql://localhost:3306/LMS";
-    private static final String user = "root";
-    private static final String password = "Rohit1Rajat@";
+    private static String user = "";
+    private static String password = "";
 
     public static Connection GetConnection() {
         try {
@@ -35,5 +35,11 @@ public class DatabaseManager {
             }
         } catch (Exception e) {
         }
+    }
+    public static void getCreds() throws IOException {
+        String creds = Files.readString(Path.of("lib/SQLConfig.txt"));
+        String[] arr = creds.split("\n");
+        user = arr[0];
+        password = arr[1];
     }
 }
