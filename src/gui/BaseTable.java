@@ -15,8 +15,10 @@ public class BaseTable extends JScrollPane{
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
         };
         JTable table = new JTable(model);
+        table.getTableHeader().setReorderingAllowed(false);
         table.setFont(tableFont);
         table.setRowHeight(20);
 

@@ -9,8 +9,6 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import src.ui.LoginFrame;
-
 import java.sql.SQLException;
 
 public class DatabaseInitializer {
