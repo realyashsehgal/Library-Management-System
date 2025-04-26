@@ -1,7 +1,8 @@
 package src.forms;
 
+import java.awt.*;
+import java.util.List;
 import javax.swing.*;
-
 import src.gui.BaseFrame;
 import src.gui.BaseHeadImagePanel;
 import src.gui.BaseHeadPanel;
@@ -10,9 +11,6 @@ import src.gui.BaseTable;
 import src.managers.TransactionManager;
 import src.models.Transaction;
 
-import java.awt.*;
-import java.util.List;
-
 public class TransactionPanel extends JPanel {
 
     private Font font = new Font("Montserrat", Font.BOLD, 20);
@@ -20,13 +18,13 @@ public class TransactionPanel extends JPanel {
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
 
     private static final Color BROWN = new Color(132, 72, 47);
-    private static final Color WHITE = new Color(255,255,255);
-    private static final Color PURPLE = new Color(160, 10,255);
+    private static final Color WHITE = new Color(255, 255, 255);
+    private static final Color PURPLE = new Color(160, 10, 255);
 
     public TransactionPanel() {
         this.setLayout(new BorderLayout());
 
-        String[] buttons = { "Home", "Student", "Book" };
+        String[] buttons = { "Home", "Entry", "Exit" };
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
         JPanel headPanel = new BaseHeadImagePanel("Transaction Data", headingFont, 20, 30);
@@ -66,9 +64,8 @@ public class TransactionPanel extends JPanel {
         });
         LibraryApp.addComponent(buttonsPanel, showTransactions, gbc, 0, 2);
 
-        JButton[] mainButtons = {borrowButton, returnButton, showTransactions};
-        for(JButton button: mainButtons)
-        {   
+        JButton[] mainButtons = { borrowButton, returnButton, showTransactions };
+        for (JButton button : mainButtons) {
             button.setBackground(WHITE);
             button.setForeground(PURPLE);
         }
@@ -84,7 +81,7 @@ public class TransactionPanel extends JPanel {
     private JFrame borrowFrame() {
         JFrame mainFrame = new BaseFrame(800, 600, "Borrow Book", null);
 
-        JPanel headPanel = new BaseHeadImagePanel("Borrow Book",  homeFont, 10, 20);
+        JPanel headPanel = new BaseHeadImagePanel("Borrow Book", homeFont, 10, 20);
 
         JPanel addPanel = new BaseImagePanel("src/images/borrowPanel.jpg");
         addPanel.setLayout(new GridBagLayout());
@@ -97,7 +94,7 @@ public class TransactionPanel extends JPanel {
         JLabel studentErp = LibraryApp.createLabel("Student ERP", font);
         JLabel bookID = LibraryApp.createLabel("Book ID", font);
 
-        JLabel[] labels = { studentErp, bookID};
+        JLabel[] labels = { studentErp, bookID };
 
         for (int i = 0; i < labels.length; i++) {
 
@@ -109,7 +106,7 @@ public class TransactionPanel extends JPanel {
         JTextField erpField = LibraryApp.createTextField(font);
         JTextField idField = LibraryApp.createTextField(font);
 
-        JTextField[] tfs = { erpField, idField};
+        JTextField[] tfs = { erpField, idField };
 
         for (int i = 0; i < tfs.length; i++) {
 
@@ -121,7 +118,8 @@ public class TransactionPanel extends JPanel {
             String erp = erpField.getText().toUpperCase();
             String id = idField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to Add Borrow Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
+                    "Are you sure you want to Add Borrow Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id,
+                    "Borrow Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 Transaction transaction = new Transaction(erp, id, "Borrow");
@@ -146,10 +144,11 @@ public class TransactionPanel extends JPanel {
 
         return mainFrame;
     }
+
     private JFrame returnFrame() {
         JFrame mainFrame = new BaseFrame(800, 600, "Return Book", null);
 
-        JPanel headPanel = new BaseHeadImagePanel("Return Book",  homeFont, 10, 20);
+        JPanel headPanel = new BaseHeadImagePanel("Return Book", homeFont, 10, 20);
 
         JPanel addPanel = new BaseImagePanel("src/images/returnPanel.jpg");
         addPanel.setLayout(new GridBagLayout());
@@ -161,10 +160,10 @@ public class TransactionPanel extends JPanel {
 
         JLabel studentErp = LibraryApp.createLabel("Student ERP", font);
         JLabel bookID = LibraryApp.createLabel("Book ID", font);
-        JLabel[] labels = { studentErp, bookID};
+        JLabel[] labels = { studentErp, bookID };
 
         for (int i = 0; i < labels.length; i++) {
-        
+
             labels[i].setForeground(WHITE);
             LibraryApp.addComponent(addPanel, labels[i], gbc, 0, i);
 
@@ -173,7 +172,7 @@ public class TransactionPanel extends JPanel {
         JTextField erpField = LibraryApp.createTextField(font);
         JTextField idField = LibraryApp.createTextField(font);
 
-        JTextField[] tfs = { erpField, idField};
+        JTextField[] tfs = { erpField, idField };
 
         for (int i = 0; i < tfs.length; i++) {
 
@@ -185,7 +184,8 @@ public class TransactionPanel extends JPanel {
             String erp = erpField.getText().toUpperCase();
             String id = idField.getText().toUpperCase();
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to Add Return Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id, "Borrow Confirm",
+                    "Are you sure you want to Add Return Transaction with: \nStudent ERP: " + erp + "\nBook ID: " + id,
+                    "Borrow Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 Transaction transaction = new Transaction(erp, id, "Borrow");
@@ -234,30 +234,29 @@ public class TransactionPanel extends JPanel {
             borrowTransactions();
             System.out.println("Borrow");
         });
-        
+
         JButton showReturns = new JButton("Return Transactions");
         showReturns.setFont(font);
         showReturns.addActionListener(e -> {
             returnTransactions();
             System.out.println("Return");
         });
-        
+
         JButton showTransactions = new JButton("All Transactions");
         showTransactions.setFont(font);
         showTransactions.addActionListener(e -> {
             allTransactions();
             System.out.println("Show");
         });
-        JButton[] mainButtons = {showBorrows, showReturns, showTransactions};
+        JButton[] mainButtons = { showBorrows, showReturns, showTransactions };
 
-        for(int i = 0; i <mainButtons.length; i++)
-        {
-            final int index = i;   
+        for (int i = 0; i < mainButtons.length; i++) {
+            final int index = i;
             mainButtons[index].setBackground(WHITE);
             mainButtons[index].setForeground(PURPLE);
-            LibraryApp.addComponent(buttonsPanel, mainButtons[index], gbc, 0, index);   
+            LibraryApp.addComponent(buttonsPanel, mainButtons[index], gbc, 0, index);
         }
-        
+
         transactionPanel.add(headPanel, BorderLayout.NORTH);
         transactionPanel.add(buttonsPanel, BorderLayout.CENTER);
 
@@ -267,13 +266,13 @@ public class TransactionPanel extends JPanel {
         return mainFrame;
     }
 
-    private JFrame allTransactions()
-    {
+    private JFrame allTransactions() {
         JFrame mainFrame = new BaseFrame(800, 600, "Transaction Data", null);
 
         JPanel headPanel = new BaseHeadPanel("Transaction Details", BROWN, WHITE, homeFont, 20, 30);
 
-        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date", "Due Date"};
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date",
+                "Due Date" };
 
         List<String[]> transactions = TransactionManager.getAllTransactions();
         String[][] data = transactions.toArray(new String[0][]);
@@ -287,12 +286,13 @@ public class TransactionPanel extends JPanel {
 
         return mainFrame;
     }
-    private JFrame borrowTransactions()
-    {
+
+    private JFrame borrowTransactions() {
         JFrame mainFrame = new BaseFrame(800, 600, "Borrow Data", null);
         JPanel headPanel = new BaseHeadPanel("Borrow Details", BROWN, WHITE, homeFont, 20, 30);
 
-        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date", "Due Date"};
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date",
+                "Due Date" };
 
         List<String[]> transactions = TransactionManager.getAllBorrows();
         String[][] data = transactions.toArray(new String[0][]);
@@ -306,12 +306,12 @@ public class TransactionPanel extends JPanel {
 
         return mainFrame;
     }
-    private JFrame returnTransactions()
-    {
+
+    private JFrame returnTransactions() {
         JFrame mainFrame = new BaseFrame(800, 600, "Return Data", null);
         JPanel headPanel = new BaseHeadPanel("Return Details", BROWN, WHITE, homeFont, 20, 30);
 
-        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date"};
+        String[] columnNames = { "Transaction ID", "Student ERP", "Book ID", "Transaction Type", "Transaction Date" };
 
         List<String[]> transactions = TransactionManager.getAllReturns();
         String[][] data = transactions.toArray(new String[0][]);
@@ -325,5 +325,5 @@ public class TransactionPanel extends JPanel {
 
         return mainFrame;
     }
-   
+
 }

@@ -7,17 +7,17 @@ import java.sql.*;
 
 public class DatabaseManager {
 
-    private static final String url = "jdbc:mysql://localhost:3306/LMS";
+    private static final String url = "jdbc:mysql://localhost:3306/plm";
     private static String user = "";
     private static String password = "";
 
     public static Connection GetConnection() {
         try {
-            
+
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
-            
+
             return null;
         }
     }
@@ -48,5 +48,8 @@ public class DatabaseManager {
         String[] arr = creds.split("\n");
         user = arr[0].trim();
         password = arr[1].trim();
+        System.out.println(user + " " + password);
+        System.out.println("sfainit");
+
     }
 }

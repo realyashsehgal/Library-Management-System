@@ -1,32 +1,34 @@
 package src.forms;
 
+import java.awt.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import javax.swing.*;
-
 import src.gui.BaseFrame;
 import src.gui.BaseHeadImagePanel;
 import src.gui.BaseHeadPanel;
 import src.gui.BaseImagePanel;
 import src.gui.BaseTable;
-import src.managers.BookManager;
-import src.models.Book;
+import src.managers.CarExitManager;
+import src.models.CarExit;
 
-import java.awt.*;
-import java.util.List;
-
-public class BookPanel extends JPanel {
+public class CarExitPanel extends JPanel {
 
     private Font font = new Font("Montserrat", Font.BOLD, 20);
     private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
 
-    private static final Color WHITE = new Color(255,255,255);
+    private static final Color WHITE = new Color(255, 255, 255);
     private static final Color BROWN = new Color(132, 72, 47);
-    private static final Color PURPLE = new Color(160, 10,255);
+    private static final Color PURPLE = new Color(160, 10, 255);
 
-    public BookPanel() {
+    public CarExitPanel() {
         this.setLayout(new BorderLayout());
 
-        String[] buttons = { "Home", "Student", "Transaction" };
+        String[] buttons = { "Home", "Entry", "Transaction" };
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
         JPanel headPanel = new BaseHeadImagePanel("Book Data", headingFont, 20, 30);
@@ -66,9 +68,8 @@ public class BookPanel extends JPanel {
         });
         LibraryApp.addComponent(buttonsPanel, showButton, gbc, 0, 2);
 
-        JButton[] mainButtons = {addButton, removeButton, showButton};
-        for(JButton button: mainButtons)
-        {   
+        JButton[] mainButtons = { addButton, removeButton, showButton };
+        for (JButton button : mainButtons) {
             button.setBackground(WHITE);
             button.setForeground(PURPLE);
         }
@@ -93,41 +94,50 @@ public class BookPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel bookId = LibraryApp.createLabel("Book ID: ", font);
-        JLabel bookName = LibraryApp.createLabel("Book Title: ", font);
-        JLabel bookAuthor = LibraryApp.createLabel("Book Author: ", font);
+        JLabel carnumber = LibraryApp.createLabel("car Number: ", font);
+        JLabel drivername = LibraryApp.createLabel("driver name: ", font);
+        JLabel amountpaid = LibraryApp.createLabel("amount: ", font);
+        JLabel exittime = LibraryApp.createLabel("exit time: ", font);
 
-        JLabel[] labels = { bookId, bookName, bookAuthor };
+        JLabel[] labels = { carnumber, drivername, amountpaid, exittime };
 
         for (int i = 0; i < labels.length; i++) {
 
-            labels[i].setForeground(WHITE   );
+            labels[i].setForeground(WHITE);
             LibraryApp.addComponent(addPanel, labels[i], gbc, 0, i);
 
         }
 
-        JTextField idField = LibraryApp.createTextField(font);
-        JTextField titleField = LibraryApp.createTextField(font);
-        JTextField authorField = LibraryApp.createTextField(font);
+        JTextField carnumbertf = LibraryApp.createTextField(font);
+        JTextField drivernametf = LibraryApp.createTextField(font);
+        JSpinner spinner = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor exittimetf = new JSpinner.DateEditor(spinner, "dd-MM-yyyy HH:mm");
+        spinner.setEditor(exittimetf);
+        JTextField amountpaidtf = LibraryApp.createTextField(font);
 
-        JTextField[] tfs = { idField, titleField, authorField };
+        JTextField[] tfs = { carnumbertf, drivernametf, amountpaidtf };
 
         for (int i = 0; i < tfs.length; i++) {
 
             LibraryApp.addComponent(addPanel, tfs[i], gbc, 1, i);
         }
+        LibraryApp.addComponent(addPanel, spinner, gbc, 1, 3);
 
         JButton addButton = new JButton("Add Book");
         addButton.addActionListener(e -> {
-            String id = idField.getText().toUpperCase();
-            String title = titleField.getText();
-            String author = authorField.getText();
+            String carkenumber = carnumbertf.getText().toUpperCase();
+            String driverkaname = drivernametf.getText();
+            Date date = (Date) spinner.getValue();
+            Instant instant = date.toInstant();
+            LocalDateTime exittimeout = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+            float amountkipaid = Float.parseFloat(amountpaidtf.getText());
             int result = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to add Book with ID: " + id + "?", "Add Confirm",
+                    "Are you sure you want to add Book with ID: " + carnumber + "?", "Add Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                Book book = new Book(id, title, author);
-                String addBook = BookManager.addBook(book);
+
+                CarExit book = new CarExit(carkenumber, driverkaname, exittimeout, amountkipaid);
+                String addBook = CarExitManager.addBook(book);
                 if (addBook.equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(null, "Book Successfully Added!", addBook,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -139,7 +149,7 @@ public class BookPanel extends JPanel {
             }
         });
         addButton.setBackground(WHITE);
-        LibraryApp.addComponent(addPanel, addButton, gbc, 0, 3);
+        LibraryApp.addComponent(addPanel, addButton, gbc, 0, 4);
 
         mainFrame.add(headPanel, BorderLayout.NORTH);
         mainFrame.add(addPanel, BorderLayout.CENTER);
@@ -162,9 +172,9 @@ public class BookPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel bookId = LibraryApp.createLabel("Book ID: ", font);
-        bookId.setForeground(WHITE);
-        LibraryApp.addComponent(removePanel, bookId, gbc, 0, 0);
+        JLabel carextid = LibraryApp.createLabel("Book ID: ", font);
+        carextid.setForeground(WHITE);
+        LibraryApp.addComponent(removePanel, carextid, gbc, 0, 0);
 
         JTextField idField = LibraryApp.createTextField(font);
         LibraryApp.addComponent(removePanel, idField, gbc, 1, 0);
@@ -177,7 +187,7 @@ public class BookPanel extends JPanel {
                     "Are you sure you want to remove Book with ID: " + id + "?", "Remove Confirm",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                String removeBook = BookManager.removeBook(id);
+                String removeBook = CarExitManager.removeBook(id);
                 if (removeBook.equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(null, "Book Successfully Removed!", removeBook,
                             JOptionPane.INFORMATION_MESSAGE);
@@ -199,16 +209,15 @@ public class BookPanel extends JPanel {
         return mainFrame;
     }
 
-
     private JFrame showFrame() {
 
         JFrame mainFrame = new BaseFrame(800, 600, "Book Data", null);
 
-       JPanel headPanel = new BaseHeadPanel("Book Details", BROWN, WHITE, homeFont, 20, 30);
+        JPanel headPanel = new BaseHeadPanel("Book Details", BROWN, WHITE, homeFont, 20, 30);
 
-        String[] columnNames = { "Book ID", "Title", "Author" , "Availability"};
+        String[] columnNames = { "Book ID", "Title", "Author", "Availability" };
 
-        List<String[]> books = BookManager.getAllBooks();
+        List<String[]> books = CarExitManager.getAllBooks();
         String[][] data = books.toArray(new String[0][]);
 
         JScrollPane dataTable = new BaseTable(data, columnNames);
@@ -220,6 +229,5 @@ public class BookPanel extends JPanel {
 
         return mainFrame;
     }
-
 
 }

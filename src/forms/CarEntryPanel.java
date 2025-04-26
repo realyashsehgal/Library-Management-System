@@ -1,7 +1,8 @@
 package src.forms;
 
+import java.awt.*;
+import java.util.List;
 import javax.swing.*;
-
 import src.gui.BaseFrame;
 import src.gui.BaseHeadImagePanel;
 import src.gui.BaseHeadPanel;
@@ -10,23 +11,20 @@ import src.gui.BaseTable;
 import src.managers.StudentManager;
 import src.models.Student;
 
-import java.awt.*;
-import java.util.List;
-
-public class StudentPanel extends JPanel {
+public class CarEntryPanel extends JPanel {
 
     private Font font = new Font("Montserrat", Font.BOLD, 20);
     private Font headingFont = new Font("Montserrat", Font.BOLD, 80);
     private Font homeFont = new Font("Montserrat", Font.BOLD, 40);
 
     private static final Color BROWN = new Color(132, 72, 47);
-    private static final Color WHITE = new Color(255,255,255);
-    private static final Color PURPLE = new Color(160, 10,255);
+    private static final Color WHITE = new Color(255, 255, 255);
+    private static final Color PURPLE = new Color(160, 10, 255);
 
-    public StudentPanel() {
+    public CarEntryPanel() {
         this.setLayout(new BorderLayout());
 
-        String[] buttons = { "Home", "Book", "Transaction" };
+        String[] buttons = { "Home", "Exit", "Transaction" };
         JPanel ribbonPanel = LibraryApp.createRibbonPanel(buttons, font);
 
         JPanel headPanel = new BaseHeadImagePanel("Student Data", headingFont, 20, 30);
@@ -66,9 +64,8 @@ public class StudentPanel extends JPanel {
         });
         LibraryApp.addComponent(buttonsPanel, showButton, gbc, 0, 2);
 
-        JButton[] mainButtons = {addButton, removeButton, showButton};
-        for(JButton button: mainButtons)
-        {   
+        JButton[] mainButtons = { addButton, removeButton, showButton };
+        for (JButton button : mainButtons) {
             button.setBackground(WHITE);
             button.setForeground(PURPLE);
         }
